@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Ball Animation</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(to right, #2395bf, #ff0750);
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            color: #000000;
+            font-size: 3em;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        canvas {
+            background-color: #fe7556;
+            border: 5px solid #8129ab;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        canvas:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Canvas Test</h1>
+    <canvas id="myCanvas" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Ball properties
+        let x = 50;
+        let y = 50;
+        let dx = 3; // Speed in x direction
+        let dy = 3; // Speed in y direction
+        const radius = 15;
+        const color = '#000000'; // black color for the ball
+
+        function drawBall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2); // Draw the circle
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function update() {
+            // Update ball position
+            x += dx;
+            y += dy;
+
+            // Bounce off horizontal walls
+            if (x + radius > canvas.width || x - radius < 0) {
+                dx = -dx;
+            }
+            // Bounce off vertical walls
+            if (y + radius > canvas.height || y - radius < 0) {
+                dy = -dy;
+            }
+
+            drawBall(); // Redraw the ball
+            requestAnimationFrame(update); // Loop the animation
+        }
+
+        // Start the animation
+        update();
+    </script>
+
+</body>
+</html>
